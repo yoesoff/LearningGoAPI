@@ -16,7 +16,7 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", homeHandler)
-	http.ListenAndServe(":80", r)
+	http.ListenAndServe(":9090", r)
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
