@@ -1,3 +1,8 @@
+Install PostgresSQL
+
+Install Nginx
+Setup Request forwader from Nginx 80 to Our app at 9090
+ 
 Install GO on server
 - https://www.digitalocean.com/community/tutorials/how-to-install-go-1-6-on-ubuntu-16-04
 
