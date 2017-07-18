@@ -3,51 +3,16 @@ package main
 import (
 	"net/http"
 
-	pongo "github.com/flosch/pongo2"
 	"github.com/gorilla/mux"
-)
-
-var (
-	templateFolder = "templates/"
-	assetsFolder   = "assets/"
+	"gitlab.com/mhyusufibrahim/teahrm/public"
 )
 
 func main() {
 	r := mux.NewRouter()
 
-	r.HandleFunc("/", homeHandler)
-	r.HandleFunc("/login", loginHandler)
-	r.HandleFunc("/register", registerHandler)
+	r.HandleFunc("/", public.HomeHandler)
+	r.HandleFunc("/login", public.LoginHandler)
+	r.HandleFunc("/register", public.RegisterHandler)
 
 	http.ListenAndServe(":9090", r)
-}
-
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	template := templateFolder + "public/home.html"
-	home_html := pongo.Must(pongo.FromFile(template))
-
-	err := home_html.ExecuteWriter(pongo.Context{"title": "Hello World mate.", "greating": "Hai, Hello world!"}, w)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-func loginHandler(w http.ResponseWriter, r *http.Request) {
-	template := templateFolder + "public/login.html"
-	home_html := pongo.Must(pongo.FromFile(template))
-
-	err := home_html.ExecuteWriter(pongo.Context{"title": "Login.", "greating": "Hai, Hello world Login!"}, w)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-func registerHandler(w http.ResponseWriter, r *http.Request) {
-	template := templateFolder + "public/register.html"
-	home_html := pongo.Must(pongo.FromFile(template))
-
-	err := home_html.ExecuteWriter(pongo.Context{"title": "Register.", "greating": "Hai, Hello world register!"}, w)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
 }
