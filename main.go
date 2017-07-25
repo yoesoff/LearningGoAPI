@@ -15,9 +15,13 @@ var (
 
 func init() {
 	app = a.App{}
-	app.Initialize(os.Getenv("TEAHRM_DB_USERNAME"), os.Getenv("TEAHRM_DB_PASSWORD"), os.Getenv("TEAHRM_DB_NAME"))
+	app.Initialize(
+		os.Getenv("TEAHRM_DB_USERNAME"),
+		os.Getenv("TEAHRM_DB_PASSWORD"),
+		os.Getenv("TEAHRM_DB_NAME"),
+	)
 
-	//app.Run(":8080")
+	//app.Run(":9090")
 }
 
 func main() {
