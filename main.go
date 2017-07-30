@@ -1,12 +1,9 @@
 package main
 
 import (
-	"net/http"
 	"os"
 
-	"github.com/gorilla/mux"
 	a "gitlab.com/mhyusufibrahim/teahrm/app"
-	"gitlab.com/mhyusufibrahim/teahrm/public"
 )
 
 var (
@@ -25,11 +22,12 @@ func init() {
 }
 
 func main() {
-	r := mux.NewRouter()
+	/* r := mux.NewRouter()*/
 
-	r.HandleFunc("/", public.HomeHandler)
-	r.HandleFunc("/login", public.LoginHandler)
-	r.HandleFunc("/register", public.RegisterHandler)
+	//r.HandleFunc("/", public.HomeHandler)
+	//r.HandleFunc("/login", public.LoginHandler)
+	//r.HandleFunc("/register", public.RegisterHandler)
 
-	http.ListenAndServe(":9090", r)
+	//http.ListenAndServe(":9090", r)
+	app.Run(":9090")
 }

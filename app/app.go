@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gorilla/mux"
@@ -23,7 +24,7 @@ func (a *App) Initialize(user string, password string, dbname string) {
 	connectionString := fmt.Sprintf("user=%s password=%s dbname=%s", user, password, dbname)
 
 	var err error
-	a.DB, err = sql.Open("postgres", connectionString)
+	a.DB, err = sql.Open(os.Getenv("TEAHRM_DB_SERVER"), connectionString)
 
 	if err != nil {
 		log.Fatal(err)

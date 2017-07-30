@@ -2,6 +2,9 @@ package user
 
 import (
 	"database/sql"
+	"time"
+
+	"github.com/lib/pq"
 )
 
 type User struct {
@@ -15,9 +18,9 @@ type User struct {
 	Signature string `json:"signature"`
 
 	//https://gobyexample.com/time
-	Deleted_at string `json:"deleted_at"`
-	Created_at string `json:"created_at"`
-	Updated_at string `json:"updated_at"`
+	Deleted_at pq.NullTime `json:"deleted_at"`
+	Created_at time.Time   `json:"created_at"`
+	Updated_at time.Time   `json:"updated_at"`
 }
 
 func (u *User) GetUser(db *sql.DB) error {
@@ -36,7 +39,7 @@ func (u *User) GetUser(db *sql.DB) error {
 		FROM 
 			users 
 		WHERE 
-			id=$1`, u.ID).Scan(&u.Name, &u.Username, &u.Email, &u.Is_active, &u.Timezone, &u.Signature, &u.Deleted_at, &u.Created_at, &u.Updated_at)
+			id=$1`, u.ID).Scan(&u.Name, &u.Username, &u.Email, &u.Is_active, &u.Timezone, &u.Language, &u.Signature, &u.Deleted_at, &u.Created_at, &u.Updated_at)
 
 }
 
@@ -102,7 +105,8 @@ func (u *User) CreateUser(db *sql.DB) error {
 
 func GetUsers(db *sql.DB, start int, count int) ([]User, error) {
 	rows, err := db.Query(
-		`SELECT 
+		`SELECT
+		    id,
 			name, 
 			username, 
 			email, 
@@ -129,16 +133,17 @@ func GetUsers(db *sql.DB, start int, count int) ([]User, error) {
 	for rows.Next() {
 		var u User
 		if err := rows.Scan(
-			u.Name,
-			u.Username,
-			u.Email,
-			u.Is_active,
-			u.Timezone,
-			u.Language,
-			u.Signature,
-			u.Deleted_at,
-			u.Updated_at,
-			u.ID,
+			&u.ID,
+			&u.Name,
+			&u.Username,
+			&u.Email,
+			&u.Is_active,
+			&u.Timezone,
+			&u.Language,
+			&u.Signature,
+			&u.Deleted_at,
+			&u.Created_at,
+			&u.Updated_at,
 		); err != nil {
 			return nil, err
 		}
