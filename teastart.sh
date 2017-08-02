@@ -24,12 +24,13 @@ export GOBIN=$GOPATH/bin
 export GOSRC=$GOPATH/src
 export GOPKG=$GOPATH/pkg
 
+export TEAPATH=$GOSRC/gitlab.com/mhyusufibrahim/teahrm
 export TEAHRM_DB_SERVER=postgres
 export TEAHRM_DB_USERNAME=postgres
 export TEAHRM_DB_PASSWORD=postgres
 export TEAHRM_DB_NAME=teahrm
 export TEAHRM_DB_TEST_NAME=teahrm_test
-export TEAHRM_DB_MIGRATION=$GOSRC/gitlab.com/mhyusufibrahim/teahrm/database
+export TEAHRM_DB_MIGRATION=$TEAPATH/database
 
 PATH=$GOBIN:$PATH
 cd $GOPATH/src/gitlab.com/mhyusufibrahim/teahrm
@@ -40,7 +41,7 @@ echo "- GOBIN  : " $GOBIN
 echo "- GOSRC  : " $GOSRC
 echo "- GOPKG  : " $GOPKG
 echo "- GOPATH : " $GOPATH
-echo "- GVM_ROOT" $GVM_ROOT
+echo "- GVM_ROOT: " $GVM_ROOT
 
 echo "\nTEAHRM Paths:"
 echo "- TEAHRM_DB_USERNAME   : " $TEAHRM_DB_USERNAME 
@@ -48,7 +49,7 @@ echo "- TEAHRM_DB_PASSWORD   : " $TEAHRM_DB_PASSWORD
 echo "- TEAHRM_DB_NAME       : " $TEAHRM_DB_NAME
 echo "- TEAHRM_DB_TEST_NAME  : " $TEAHRM_DB_TEST_NAME
 echo "- TEAHRM_DB_MIGRATION  : " $TEAHRM_DB_MIGRATION
-
+echo "- TEAPATH:" $TEAPATH
 
 echo "\nDatabase status:"
 service postgresql status
