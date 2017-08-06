@@ -10,7 +10,7 @@ echo "    °ÛÛÛ     °ÛÛÛÛÛÛ    °ÛÛÛÛÛÛÛÛÛÛÛ  °ÛÛÛÛÛ�
 echo "    °ÛÛÛ     °ÛÛÛ°°Û    °ÛÛÛ°°°°°ÛÛÛ  °ÛÛÛ°°°°°ÛÛÛ  °ÛÛÛ°°°°°ÛÛÛ  °ÛÛÛ °°°  °ÛÛÛ" 
 echo "    °ÛÛÛ     °ÛÛÛ °   Û °ÛÛÛ    °ÛÛÛ  °ÛÛÛ    °ÛÛÛ  °ÛÛÛ    °ÛÛÛ  °ÛÛÛ      °ÛÛÛ" 
 echo "    ÛÛÛÛÛ    ÛÛÛÛÛÛÛÛÛÛ ÛÛÛÛÛ   ÛÛÛÛÛ ÛÛÛÛÛ   ÛÛÛÛÛ ÛÛÛÛÛ   ÛÛÛÛÛ ÛÛÛÛÛ     ÛÛÛÛÛ"
-echo "   °°°°°    °°°°°°°°°° °°°°°   °°°°° °°°°°   °°°°° °°°°°   °°°°° °°°°°     °°°°°" 
+echo "    °°°°°    °°°°°°°°°° °°°°°   °°°°° °°°°°   °°°°° °°°°°   °°°°° °°°°°     °°°°°" 
 
 
 echo "GO ENVIRONTMENT VARIABLES FOR TEAHRM"
@@ -54,3 +54,6 @@ echo "- TEAPATH:" $TEAPATH
 echo "\nDatabase status:"
 service postgresql status
 psql -l | grep $TEAHRM_DB_NAME 
+
+cd $(basename "$TEAPATH")
+go test -v -cover

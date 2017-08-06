@@ -52,11 +52,11 @@ func (u *User) UpdateUser(db *sql.DB) error {
 			username=$2, 
 			email=$3, 
 			is_active=$4, 
-			timezone=%5, 
-			language=%6, 
-			signature=%7, 
-			deleted_at=%8, 
-			updated_at=%9 
+			timezone=$5, 
+			language=$6, 
+			signature=$7, 
+			deleted_at=$8, 
+			updated_at=$9 
 		WHERE 
 			id=$10`,
 		u.Name,
