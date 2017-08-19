@@ -2,20 +2,31 @@ package user
 
 import (
 	"database/sql"
+	"strings"
 	"time"
 
 	"github.com/lib/pq"
 )
 
+var (
+	table         = "users"
+	fields        = `id, name, username, gender, status, blood_type, email, is_active, timezone, language, signature, deleted_at, created_at, updated_at`
+	fields_update = `name=$1, username=$2, gender=$3, status=$4, blood_type=$5, email=$6, is_active=$7, timezone=$8, language=$9, signature=$10, deleted_at=$11, updated_at=$12 `
+	field_insert  = "$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13"
+)
+
 type User struct {
-	ID        int    `json:"id"`
-	Name      string `json:"name"`
-	Username  string `json:"username"`
-	Email     string `json:"Email"`
-	Is_active bool   `json:"is_active"`
-	Timezone  string `json:"timezone"`
-	Language  string `json:"language"`
-	Signature string `json:"signature"`
+	ID         int    `json:"id"`
+	Name       string `json:"name"`
+	Username   string `json:"username"`
+	Gender     string `json:"gender"`
+	Status     string `json:"status"`
+	Blood_type string `json:"blood_type"`
+	Email      string `json:"Email"`
+	Is_active  bool   `json:"is_active"`
+	Timezone   string `json:"timezone"`
+	Language   string `json:"language"`
+	Signature  string `json:"signature"`
 
 	//https://gobyexample.com/time
 	Deleted_at pq.NullTime `json:"deleted_at"`
@@ -24,43 +35,32 @@ type User struct {
 }
 
 func (u *User) GetUser(db *sql.DB) error {
-	return db.QueryRow(
-		`SELECT	
-			name, 
-			username, 
-			email, 
-			is_active, 
-			timezone, 
-			language, 
-			signature, 
-			deleted_at, 
-			created_at, 
-			updated_at  
-		FROM 
-			users 
-		WHERE 
-			id=$1`, u.ID).Scan(&u.Name, &u.Username, &u.Email, &u.Is_active, &u.Timezone, &u.Language, &u.Signature, &u.Deleted_at, &u.Created_at, &u.Updated_at)
+	row_user := db.QueryRow(`SELECT	`+fields+` FROM `+table+` WHERE id=$1`, u.ID)
 
+	return row_user.Scan(
+		&u.ID,
+		&u.Name,
+		&u.Username,
+		&u.Gender,
+		&u.Status,
+		&u.Blood_type,
+		&u.Email,
+		&u.Is_active,
+		&u.Timezone,
+		&u.Language,
+		&u.Signature,
+		&u.Deleted_at,
+		&u.Created_at,
+		&u.Updated_at)
 }
 
 func (u *User) UpdateUser(db *sql.DB) error {
-	_, err := db.Exec(
-		`UPDATE 
-			users 
-		SET  
-			name=$1, 
-			username=$2, 
-			email=$3, 
-			is_active=$4, 
-			timezone=$5, 
-			language=$6, 
-			signature=$7, 
-			deleted_at=$8, 
-			updated_at=$9 
-		WHERE 
-			id=$10`,
+	_, err := db.Exec(`UPDATE `+table+` SET `+fields_update+` WHERE id=$13`,
 		u.Name,
 		u.Username,
+		u.Gender,
+		u.Status,
+		u.Blood_type,
 		u.Email,
 		u.Is_active,
 		u.Timezone,
@@ -74,25 +74,27 @@ func (u *User) UpdateUser(db *sql.DB) error {
 }
 
 func (u *User) DeleteUser(db *sql.DB) error {
-	_, err := db.Exec("DELETE FROM users WHERE id=$1", u.ID)
+	_, err := db.Exec("DELETE FROM "+table+"  WHERE id=$1", u.ID)
 
 	return err
 }
 
 func (u *User) CreateUser(db *sql.DB) error {
-	err := db.QueryRow(
-		`INSERT INTO 
-			users(name, username, email, is_active, timezone, language, signature, deleted_at, Updated_at) 
-		VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) 
-		    RETURNING id`,
+	fields_min_id := strings.Replace(fields, "id, ", "", -1)
+
+	err := db.QueryRow(`INSERT INTO `+table+`(`+fields_min_id+`) VALUES(`+field_insert+`) RETURNING id`,
 		u.Name,
 		u.Username,
+		u.Gender,
+		u.Status,
+		u.Blood_type,
 		u.Email,
 		u.Is_active,
 		u.Timezone,
 		u.Language,
 		u.Signature,
 		u.Deleted_at,
+		u.Created_at,
 		u.Updated_at,
 	).Scan(&u.ID)
 
@@ -104,23 +106,7 @@ func (u *User) CreateUser(db *sql.DB) error {
 }
 
 func GetUsers(db *sql.DB, start int, count int) ([]User, error) {
-	rows, err := db.Query(
-		`SELECT
-		    id,
-			name, 
-			username, 
-			email, 
-			is_active, 
-			timezone, 
-			language, 
-			signature, 
-			deleted_at, 
-			created_at, 
-			updated_at 
-		FROM 
-			users 
-		LIMIT $1 OFFSET $2`,
-		count, start)
+	rows, err := db.Query(`SELECT `+fields+` FROM `+table+` LIMIT $1 OFFSET $2`, count, start)
 
 	if err != nil {
 		return nil, err
@@ -136,6 +122,7 @@ func GetUsers(db *sql.DB, start int, count int) ([]User, error) {
 			&u.ID,
 			&u.Name,
 			&u.Username,
+			&u.Gender, &u.Status, &u.Blood_type,
 			&u.Email,
 			&u.Is_active,
 			&u.Timezone,

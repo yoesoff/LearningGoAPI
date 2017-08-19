@@ -3,31 +3,28 @@ package main
 import (
 	"os"
 
-	a "gitlab.com/mhyusufibrahim/teahrm/app"
+	"gitlab.com/mhyusufibrahim/teahrm/app"
+	"gitlab.com/mhyusufibrahim/teahrm/public"
 )
 
 var (
-	app a.App
+	a app.App
 )
 
 func init() {
-	app = a.App{}
-	app.Initialize(
+	a = app.App{}
+	a.Initialize(
 		os.Getenv("TEAHRM_DB_USERNAME"),
 		os.Getenv("TEAHRM_DB_PASSWORD"),
 		os.Getenv("TEAHRM_DB_NAME"),
 	)
 
-	//app.Run(":9090")
+	a.Router.HandleFunc("/", public.HomeHandler)
+	a.Router.HandleFunc("/login", public.LoginHandler)
+	a.Router.HandleFunc("/register", public.RegisterHandler)
+
 }
 
 func main() {
-	/* r := mux.NewRouter()*/
-
-	//r.HandleFunc("/", public.HomeHandler)
-	//r.HandleFunc("/login", public.LoginHandler)
-	//r.HandleFunc("/register", public.RegisterHandler)
-
-	//http.ListenAndServe(":9090", r)
-	app.Run(":9090")
+	a.Run(":9090")
 }

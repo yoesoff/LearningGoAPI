@@ -11,7 +11,8 @@ var (
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	template := templateFolder + "public/home.html"
+	//template := templateFolder + "public/home.html"
+	template := "public/assets/teahrm_view/public/index.html"
 	home_html := pongo2.Must(pongo2.FromFile(template))
 
 	err := home_html.ExecuteWriter(pongo2.Context{"title": "Coming Soon.", "greating": "Hai, Hello world, we're coming soon!"}, w)

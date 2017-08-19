@@ -18,18 +18,3 @@ Setup Request forwader from Nginx 80 to Our app at 9090
 
 #Database Migration
 - https://github.com/pressly/goose
-
-#OS Variables
-gvm use go1.7
-
-export GOROOT=/usr/local/go
-export GOPATH=$HOME/go-learn2
-export GOBIN=$GOPATH/bin
-export GOSRC=$GOPATH/src
-export GOPKG=$GOPATH/pkg
-
-export TEAHRM_DB_SERVER=postgres
-export TEAHRM_DB_USERNAME=postgres
-export TEAHRM_DB_PASSWORD=postgres
-export TEAHRM_DB_NAME=teahrm
-export TEAHRM_DB_TEST_NAME=teahrm_test
