@@ -33,6 +33,8 @@ func (a *App) getUsers(w http.ResponseWriter, r *http.Request) {
 
 // Request Handler to create a single user
 func (a *App) createUser(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
 	var u User
 	var decoder = json.NewDecoder(r.Body)
 
@@ -40,8 +42,6 @@ func (a *App) createUser(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
-
-	defer r.Body.Close()
 
 	if err := u.CreateUser(a.DB); err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
@@ -86,6 +86,8 @@ func (a *App) getUser(w http.ResponseWriter, r *http.Request) {
 
 // Request Handler to update a single user
 func (a *App) updateUser(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -100,7 +102,6 @@ func (a *App) updateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	defer r.Body.Close()
 	u.ID = id
 
 	if err := u.UpdateUser(a.DB); err != nil {
@@ -127,4 +128,41 @@ func (a *App) deleteUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	respondWithJSON(w, http.StatusOK, map[string]string{"result": "success"})
+}
+
+// Get existing token by email and password (Login)
+func (a *App) getApiToken(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
+	var auth Auth
+	var decoder = json.NewDecoder(r.Body)
+
+	if err := decoder.Decode(&auth); err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
+		return
+	}
+
+	auth.GetApiToken(a.DB)
+
+	respondWithJSON(w, http.StatusOK, auth)
+}
+
+// Update token by existing token (Logout)
+func (a *App) changeApiToken(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
+	var auth Auth
+	var decoder = json.NewDecoder(r.Body)
+
+	if err := decoder.Decode(&auth); err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
+		return
+	}
+
+	if err := auth.ChangeApiToken(a.DB); err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid ID or Token")
+		return
+	}
+	respondWithJSON(w, http.StatusOK, map[string]string{"result": "success"})
+
 }

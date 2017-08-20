@@ -3,7 +3,6 @@ package main_test
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 	"testing"
@@ -79,10 +78,10 @@ func TestGetUser(t *testing.T) {
 
 	checkResponseCode(t, http.StatusOK, response.Code)
 
-	var m map[string]interface{}
-	json.Unmarshal(response.Body.Bytes(), &m)
+	/*var m map[string]interface{}*/
+	//json.Unmarshal(response.Body.Bytes(), &m)
 
-	fmt.Printf("%+v\n", m)
+	/*fmt.Printf("%+v\n", m)*/
 }
 
 // Test get multiple users
@@ -154,6 +153,68 @@ func TestDeleteUser(t *testing.T) {
 
 }
 
+func TestGetToken(t *testing.T) {
+	clearUsersTable()
+	addUsers(1)
+
+	a.DB.Exec("UPDATE users SET password = crypt('test123', gen_salt('md5')) where id=1")
+
+	payload := []byte(`{
+		"email": "0User@teahrm.id", 
+		"password": "test123" 
+	}`)
+
+	req, _ := http.NewRequest("POST", "/token", bytes.NewBuffer(payload))
+	response := executeRequest(req)
+
+	var m map[string]interface{}
+	json.Unmarshal(response.Body.Bytes(), &m)
+
+	if m["status"] != true {
+		t.Errorf("Status false")
+	}
+
+	checkResponseCode(t, http.StatusOK, response.Code)
+}
+
+func TestChangeToken(t *testing.T) {
+	clearUsersTable()
+	addUsers(1)
+
+	payload := []byte(`{
+		"id": 1, 
+		"api_token": "loremipsumdolorsitamet" 
+	}`)
+
+	req, _ := http.NewRequest("PUT", "/token", bytes.NewBuffer(payload))
+	response := executeRequest(req)
+
+	checkResponseCode(t, http.StatusOK, response.Code)
+
+	a.DB.Exec("UPDATE users SET password = crypt('test123', gen_salt('md5')) where id=1")
+
+	payload = []byte(`{
+		"email": "0User@teahrm.id", 
+		"password": "test123" 
+	}`)
+
+	req, _ = http.NewRequest("POST", "/token", bytes.NewBuffer(payload))
+	response = executeRequest(req)
+
+	var m map[string]interface{}
+	json.Unmarshal(response.Body.Bytes(), &m)
+
+	if m["status"] != true {
+		t.Errorf("Status false")
+	}
+
+	if m["api_token"] == "loremipsumdolorsitamet" {
+		t.Errorf("Token is not changed")
+	}
+
+	checkResponseCode(t, http.StatusOK, response.Code)
+}
+
 func addUsers(count int) {
 	if count < 1 {
 		count = 1
@@ -161,7 +222,7 @@ func addUsers(count int) {
 
 	for i := 0; i < count; i++ {
 		a.DB.Exec(
-			"INSERT INTO users(name, username, gender, status, blood_type, email, timezone, language, signature) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+			"INSERT INTO users(name, username, gender, status, blood_type, email, timezone, language, signature, api_token) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
 
 			"User X"+strconv.Itoa(i),
 			"Userx"+strconv.Itoa(i),
@@ -172,6 +233,7 @@ func addUsers(count int) {
 			"Asia/Jakarta",
 			"Bahasa Indonesia",
 			"Regards",
+			"loremipsumdolorsitamet",
 		)
 	}
 }

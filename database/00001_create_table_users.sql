@@ -40,7 +40,7 @@ CREATE TABLE users(
     timezone    VARCHAR(50)    DEFAULT      'Asia/Jakarta'  NOT NULL,
     language    VARCHAR(50)    DEFAULT      'Indonesia'     NOT NULL,
     signature   VARCHAR(100)   DEFAULT      'Regards',
-    rest_token  VARCHAR(100)   DEFAULT      TO_CHAR(now(), 'DD-MON-YYYY_HH24-MI-SS-US')||'_'||randomStringByLength(50),
+    api_token  VARCHAR(100)   DEFAULT      TO_CHAR(now(), 'DD-MON-YYYY_HH24-MI-SS-US')||'_'||randomStringByLength(50),
 
     deleted_at  TIMESTAMP      DEFAULT      NULL,
     created_at  TIMESTAMP      DEFAULT      CURRENT_TIMESTAMP,
