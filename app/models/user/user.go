@@ -3,7 +3,6 @@ package user
 import (
 	"database/sql"
 	"strings"
-	"time"
 
 	"github.com/lib/pq"
 )
@@ -12,7 +11,7 @@ var (
 	table         = "users"
 	fields        = `id, name, username, gender, status, blood_type, email, is_active, timezone, language, signature, deleted_at, created_at, updated_at`
 	fields_update = `name=$1, username=$2, gender=$3, status=$4, blood_type=$5, email=$6, is_active=$7, timezone=$8, language=$9, signature=$10, deleted_at=$11, updated_at=$12 `
-	field_insert  = "$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13"
+	fields_insert = "$1, $2, $3, $4, $5, $6, $7, $8, $9, $10"
 )
 
 type User struct {
@@ -30,8 +29,8 @@ type User struct {
 
 	//https://gobyexample.com/time
 	Deleted_at pq.NullTime `json:"deleted_at"`
-	Created_at time.Time   `json:"created_at"`
-	Updated_at time.Time   `json:"updated_at"`
+	Created_at pq.NullTime `json:"created_at"`
+	Updated_at pq.NullTime `json:"updated_at"`
 }
 
 func (u *User) GetUser(db *sql.DB) error {
@@ -80,9 +79,9 @@ func (u *User) DeleteUser(db *sql.DB) error {
 }
 
 func (u *User) CreateUser(db *sql.DB) error {
-	fields_min_id := strings.Replace(fields, "id, ", "", -1)
-
-	err := db.QueryRow(`INSERT INTO `+table+`(`+fields_min_id+`) VALUES(`+field_insert+`) RETURNING id`,
+	fields2 := strings.Replace(fields, "id, ", "", -1)
+	fields2 = strings.Replace(fields2, ", deleted_at, created_at, updated_at", "", -1)
+	err := db.QueryRow(`INSERT INTO `+table+`(`+fields2+`) VALUES(`+fields_insert+`) RETURNING id`,
 		u.Name,
 		u.Username,
 		u.Gender,
@@ -93,9 +92,6 @@ func (u *User) CreateUser(db *sql.DB) error {
 		u.Timezone,
 		u.Language,
 		u.Signature,
-		u.Deleted_at,
-		u.Created_at,
-		u.Updated_at,
 	).Scan(&u.ID)
 
 	if err != nil {

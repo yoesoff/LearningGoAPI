@@ -48,6 +48,16 @@ func (a *App) createUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if err2 := u.GetUser(a.DB); err2 != nil {
+		switch err2 {
+		case sql.ErrNoRows:
+			respondWithError(w, http.StatusNotFound, "User not found")
+		default:
+			respondWithError(w, http.StatusInternalServerError, err2.Error())
+		}
+		return
+	}
+
 	respondWithJSON(w, http.StatusCreated, u)
 }
 
