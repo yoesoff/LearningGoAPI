@@ -1,5 +1,7 @@
 package app
 
+import "gitlab.com/mhyusufibrahim/teahrm/public"
+
 // Initialize routes
 func (a *App) initializeRoutes() {
 	a.Router.HandleFunc("/users", a.getUsers).Methods("GET")
@@ -10,4 +12,8 @@ func (a *App) initializeRoutes() {
 
 	a.Router.HandleFunc("/token", a.getApiToken).Methods("POST")
 	a.Router.HandleFunc("/token", a.changeApiToken).Methods("PUT")
+
+	a.Router.HandleFunc("/", public.HomeHandler)
+	a.Router.HandleFunc("/login", public.LoginHandler)
+	a.Router.HandleFunc("/register", public.RegisterHandler)
 }

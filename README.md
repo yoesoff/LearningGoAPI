@@ -16,5 +16,8 @@ Setup Request forwader from Nginx 80 to Our app at 9090
 #Go-Watcher watching .go file changes, and restarting the app in case of an update/delete/add
 - https://github.com/canthefason/go-watcher
 
+#Go-Watcher is suck, use fresh instead
+- https://github.com/pilu/fresh
+
 #Database Migration
 - https://github.com/pressly/goose
