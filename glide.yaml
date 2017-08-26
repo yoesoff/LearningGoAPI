@@ -1,0 +1,10 @@
+package: gitlab.com/mhyusufibrahim/teahrm
+import:
+- package: github.com/flosch/pongo2
+  version: ^3.0.0
+- package: github.com/gorilla/mux
+  version: ^1.4.0
+- package: github.com/lib/pq
+testImport:
+- package: github.com/paulbellamy/ratecounter
+  version: ^0.2.0

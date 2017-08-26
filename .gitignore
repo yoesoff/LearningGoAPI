@@ -3,3 +3,6 @@ teahrm
 gin-bin
 public/assets/js/bower_components/
 tmp/
+vendor
+node_modules/
+yarn.lock
