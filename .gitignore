@@ -1,7 +1,8 @@
 *.swp
 teahrm
 gin-bin
-public/assets/js/bower_components/
+public/assets/js/bower_components
+public/assets/js/node_modules
 tmp/
 vendor
 node_modules/
