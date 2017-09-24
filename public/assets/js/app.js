@@ -1,5 +1,18 @@
-var Books = Backbone.Collection.extend({
-  url: '/users'
+var User = Backbone.Model.extend({
+
 });
 
-console.log(Books);
+var Employee = User.extend({
+
+});
+
+var user = new User();
+var employe = new Employee();
+
+// Destroy object
+user.destroy({
+    success: function () {
+        console.log("The model has been destroyed successfully");
+    }
+});
+

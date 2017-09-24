@@ -20,11 +20,13 @@ Setup Request forwader from Nginx 80 to Our app at 9090
 - https://github.com/pilu/fresh
 
 #Glide Package Vendor Package Management for Golang
-sudo add-apt-repository ppa:masterminds/glide && sudo apt-get update
-sudo apt-get install glide
+- https://github.com/Masterminds/glide
 
 #Govendor
 - https://github.com/kardianos/govendor
 
 #Database Migration
 - https://github.com/pressly/goose
+
+#JS/JSX Linter Tutorial
+- https://jaxbot.me/articles/setting-up-vim-for-react-js-jsx-02-03-2015
