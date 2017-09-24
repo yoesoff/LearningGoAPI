@@ -3,26 +3,11 @@
         <title>
             {% block title %}Obunda Website{% endblock %}
         </title>
-        
-        <!--Import Google Icon Font-->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
-        <!--Import materialize.css-->
-        <link type="text/css" rel="stylesheet" href="/assets/js/node_modules/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>
-
-        <!--Let browser know website is optimized for mobile-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
         {% block body %}{% endblock %}    
-        
-        <!-- BackboneLearn -->
-        <div id="container">Loading...</div>
-
-        <script crossorigin src="/assets/js/node_modules/underscore/underscore-min.js"></script>
-        <script crossorigin src="/assets/js/node_modules/jquery/dist/jquery.min.js"></script>
-        <script crossorigin src="/assets/js/node_modules/backbone/backbone-min.js"></script>
-        <script crossorigin src="/assets/js/node_modules/materialize-css/dist/js/materialize.min.js"></script>
-        <script crossorigin src="/assets/js/app.js"></script>
+        <!-- ReactJS -->
+        <div id="root"></div>
+        <script src="/assets/dist/bundle.js"></script>
    </body>
 </html>

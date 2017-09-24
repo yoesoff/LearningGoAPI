@@ -2,12 +2,12 @@ var path = require('path');
 var webpack = require('webpack');
 
 // HTML
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-    template: './src/index.html',
-    filename: 'index.html',
-    inject: 'body'
-})
+/*const HtmlWebpackPlugin = require('html-webpack-plugin');*/
+//const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
+    //template: './src/index.html',
+    //filename: 'index.html',
+    //inject: 'body'
+/*})*/
 
 module.exports = {
     devtool: 'source-map',
@@ -30,6 +30,6 @@ module.exports = {
                 presets: ['es2015', 'react']
             }
         }]
-    },
-    plugins: [HtmlWebpackPluginConfig]
+    }
+    //plugins: [HtmlWebpackPluginConfig]
 };
