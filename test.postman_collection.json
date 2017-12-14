@@ -1,0 +1,101 @@
+{
+	"variables": [],
+	"info": {
+		"name": "TeaHRM",
+		"_postman_id": "d6563e42-61c8-3d40-a0de-613c317d52b0",
+		"description": "TeaHRM based on Golang",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"description": "",
+			"item": [
+				{
+					"name": "users POST",
+					"request": {
+						"url": "http://localhost/users",
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n          \"name\": \"Test User2\", \n          \"username\": \"TestUser2\", \n          \"gender\": \"male\",\n          \"status\": \"single\",\n          \"blood_type\": \"ab\",\n          \"email\": \"testuser2@2teahrms.ids\", \n          \"is_active\": true, \n          \"timezone\": \"Asia/Jakarta\", \n          \"language\": \"Bahasa Indonesia\", \n          \"signature\": \"Regards\"\n}"
+						},
+						"description": "Create User"
+					},
+					"response": []
+				},
+				{
+					"name": "users PUT",
+					"request": {
+						"url": "http://teahrm.local/users/1",
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n          \"name\": \"Test User\", \n          \"username\": \"TestUser\", \n          \"email\": \"testuser@teahrm.id\", \n          \"is_active\": true, \n          \"timezone\": \"Asia/Jakarta\", \n          \"language\": \"Bahasa Indonesia\", \n          \"signature\": \"Regards\" \n}"
+						},
+						"description": "Update User"
+					},
+					"response": []
+				},
+				{
+					"name": "users GET",
+					"request": {
+						"url": "http://teahrm.local/users/1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "users delete",
+					"request": {
+						"url": "http://teahrm.local/users/1",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Token",
+			"description": "",
+			"item": [
+				{
+					"name": "Token PUT",
+					"request": {
+						"url": "http://teahrm.local/token",
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"id\": 1,\n\"api_token\":\"20-AUG-2017_21-02-08-979848_x4WeqbDf2DWp0f7n15YxryoEHzMxxc6vgNoZYp6GsAMDJk2vTb\"\n}"
+						},
+						"description": "Change token"
+					},
+					"response": []
+				},
+				{
+					"name": "Token POST",
+					"request": {
+						"url": "http://teahrm.local/token",
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"email\": \"testuser@teahrm.id\",\n\"password\":\"test123\"\n}"
+						},
+						"description": "UPDATE users SET password = crypt('test123', gen_salt('md5'));"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
