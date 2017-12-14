@@ -15,3 +15,7 @@ $ mkdir ./src/assets
 $ yarn add html-webpack-plugin --dev
 $ yarn run webpack 
 $ yarn run start
+
+Add React Plugin for Browser
+- https://facebook.github.io/react/blog/2015/09/02/new-react-developer-tools.html#installation
+- https://addons.mozilla.org/en-US/firefox/addon/react-devtools/
